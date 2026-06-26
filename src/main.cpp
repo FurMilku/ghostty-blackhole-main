@@ -230,6 +230,7 @@ int main(int argc, char* argv[]) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
      glfwWindowHint(GLFW_DECORATED, GL_FALSE);
      glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+    glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
  
      // Get primary monitor video mode for sizing
      GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -250,7 +251,7 @@ int main(int argc, char* argv[]) {
         HWND hwnd = glfwGetWin32Window(window);
         SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
         LONG ex = GetWindowLong(hwnd, GWL_EXSTYLE);
-        SetWindowLong(hwnd, GWL_EXSTYLE, ex | WS_EX_TRANSPARENT);
+        SetWindowLong(hwnd, GWL_EXSTYLE, ex | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
     }
 
  
