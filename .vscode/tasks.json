@@ -1,0 +1,36 @@
+ {
+     "version": "2.0.0",
+     "tasks": [
+         {
+             "label": "Python: 语法检查 claude-token.py",
+             "type": "shell",
+             "command": "python",
+             "args": [
+                 "-m",
+                 "py_compile",
+                 "${workspaceFolder}/claude-token.py"
+             ],
+             "group": {
+                 "kind": "build",
+                 "isDefault": true
+             },
+             "presentation": {
+                 "reveal": "silent"
+             },
+             "problemMatcher": []
+         },
+         {
+             "label": "Python: 运行 claude-token.py",
+             "type": "shell",
+             "command": "python",
+             "args": [
+                 "${workspaceFolder}/claude-token.py"
+             ],
+             "group": "none",
+             "presentation": {
+                 "reveal": "always"
+             },
+             "problemMatcher": []
+         }
+     ]
+ }

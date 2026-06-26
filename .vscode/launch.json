@@ -1,0 +1,37 @@
+ {
+     "version": "0.2.0",
+     "configurations": [
+         {
+             "name": "Python: 调试 claude-token.py",
+             "type": "debugpy",
+             "request": "launch",
+             "program": "${workspaceFolder}/claude-token.py",
+             "console": "integratedTerminal",
+             "args": [],
+             "justMyCode": true,
+             "env": {
+                 "PYTHONUNBUFFERED": "1"
+             },
+             "presentation": {
+                 "group": "python",
+                 "order": 1
+             }
+         },
+         {
+             "name": "Python: 运行 claude-token.py",
+             "type": "debugpy",
+             "request": "launch",
+             "program": "${workspaceFolder}/claude-token.py",
+             "console": "integratedTerminal",
+             "args": [],
+             "noDebug": true,
+             "env": {
+                 "PYTHONUNBUFFERED": "1"
+             },
+             "presentation": {
+                 "group": "python",
+                 "order": 2
+             }
+         }
+     ]
+ }
