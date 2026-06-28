@@ -67,9 +67,19 @@ static LRESULT CALLBACK WGLWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 bool Win32GL_Init(Win32GL& wgl, const char* title, int width, int height) {
     wgl.active = false;
 
+    int wx = 0, wy = 0;
     if (width <= 0 || height <= 0) {
-        width  = GetSystemMetrics(SM_CXSCREEN);
-        height = GetSystemMetrics(SM_CYSCREEN);
+        // 使用工作区而非全屏尺寸，避免遮挡任务栏
+        RECT wa;
+        if (SystemParametersInfoW(SPI_GETWORKAREA, 0, &wa, 0)) {
+            wx     = wa.left;
+            wy     = wa.top;
+            width  = wa.right  - wa.left;
+            height = wa.bottom - wa.top;
+        } else {
+            width  = GetSystemMetrics(SM_CXSCREEN);
+            height = GetSystemMetrics(SM_CYSCREEN);
+        }
     }
     wgl.width  = width;
     wgl.height = height;
@@ -89,7 +99,7 @@ bool Win32GL_Init(Win32GL& wgl, const char* title, int width, int height) {
 
     // 2. 创建窗口（全屏无边框桌面特效窗口）
     DWORD exStyle = WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW |
-                    WS_EX_TRANSPARENT | WS_EX_NOREDIRECTIONBITMAP;
+                    WS_EX_TRANSPARENT;
     DWORD style   = WS_POPUP;
 
     WCHAR wTitle[128];
@@ -97,7 +107,7 @@ bool Win32GL_Init(Win32GL& wgl, const char* title, int width, int height) {
 
     wgl.hwnd = CreateWindowExW(
         exStyle, L"BlackHoleWGL", wTitle, style,
-        0, 0, width, height,
+        wx, wy, width, height,
         nullptr, nullptr, wc.hInstance, nullptr);
 
     if (!wgl.hwnd) {
@@ -189,12 +199,9 @@ bool Win32GL_Init(Win32GL& wgl, const char* title, int width, int height) {
     SetWindowDisplayAffinity(wgl.hwnd, WDA_EXCLUDEFROMCAPTURE);
 
     // 10. 显示窗口
-    DwmFlush();
     SetWindowPos(wgl.hwnd, HWND_TOPMOST, 0, 0, 0, 0,
                  SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     ShowWindow(wgl.hwnd, SW_SHOWNOACTIVATE);
-    DwmSetWindowAttribute(wgl.hwnd, DWMWA_BORDER_COLOR, &bc, sizeof(bc));
-    DwmFlush();
 
     // 11. 窗口状态结构
     Win32GLState* state = new Win32GLState();

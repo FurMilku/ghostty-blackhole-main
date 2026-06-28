@@ -456,6 +456,7 @@ static bool MonitorRunning() {
 // ---- Main ----
 int main(int argc, char* argv[]) {
     ShowWindow(GetConsoleWindow(), SW_HIDE);
+    SetProcessDPIAware();  // 声明 DPI 感知，防止 Windows 虚拟化缩放
     // Set working directory to project root
     {
         char p[MAX_PATH]; GetModuleFileNameA(nullptr, p, MAX_PATH);
@@ -560,7 +561,6 @@ int main(int argc, char* argv[]) {
 
     setbuf(stderr, NULL);
 
-    fprintf(stderr, "OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     if (!loadGLFunctions()) { Win32GL_Shutdown(wgl); return 1; }
 
     // ---- Capture (WGC default) ----

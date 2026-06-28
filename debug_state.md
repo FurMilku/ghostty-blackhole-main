@@ -1,44 +1,21 @@
-﻿# Debug State — Blackhole: GLFW → Win32+WGL 迁移 完成
+﻿# Debug State — Blackhole: GLFW → Win32+WGL 迁移
 
 ## 当前状态
-编译 ✅ 零警告零错误 (2026-06-28)
+编译 ✅ (2026-06-28)
+黑洞渲染 ✅ — DPI 修复后正常
 
-## 本次修改总结
+## 已解决的问题
 
-### 架构变更
-```
-修改前: GLFW(窗口+OpenGL上下文) + WGC(捕获) + OpenGL(渲染)
-修改后: Win32+WGL(窗口+OpenGL上下文) + WGC(捕获) + OpenGL(渲染)
-```
+### 问题 A: 渲染不显示 (已修复)
+**根因**: `WS_EX_NOREDIRECTIONBITMAP` 在 CreateWindowEx 时就设置了，阻止了 DWM 为 OpenGL 双缓冲窗口创建合成表面。
 
-### 新增文件
-| 文件 | 说明 |
-|------|------|
-| src/win32_gl.h | Win32窗口+WGL OpenGL上下文模块头文件 |
-| src/win32_gl.cpp | 实现：窗口类注册、WGL上下文创建、DWM属性控制、消息循环 |
+**修复**: 从窗口创建参数中移除 `WS_EX_NOREDIRECTIONBITMAP`，精简 ShowWindow 后的 DWM 刷新操作。
 
-### 修改文件
-| 文件 | 修改内容 |
-|------|----------|
-| src/main.cpp | 渲染器路径：GLFW → Win32GL；glfwInit移到配置面板分支 |
-| CMakeLists.txt | 添加 win32_gl.cpp 到编译源列表 |
+### 问题 B: 屏幕放大/只有左上角 (已修复)
+**根因**: 程序未声明 DPI 感知。`GetSystemMetrics` 在高 DPI 屏上返回虚拟化坐标(如 1280x720)，而不是物理分辨率(1920x1080)，导致窗口尺寸错误。
 
-### 核心变更点
-1. **窗口创建**: 直接使用 CreateWindowExW，从创建开始就设置 WS_EX_NOACTIVATE / TOOLWINDOW / TRANSPARENT / NOREDIRECTIONBITMAP
-2. **OpenGL上下文**: WGL两步法创建（临时上下文→wglCreateContextAttribsARB→3.3兼容上下文）
-3. **消息循环**: PeekMessage / DispatchMessage 替代 glfwPollEvents
-4. **帧缓冲交换**: SwapBuffers(hdc) 替代 glfwSwapBuffers
-5. **计时器**: QueryPerformanceCounter 替代 glfwGetTime
-6. **GL函数加载**: Win32GL_GetProcAddress(wglGetProcAddress + opengl32.dll回退) 替代 glfwGetProcAddress
+**修复**: 在 main() 开头调用 `SetProcessDPIAware()`。
 
-### 未修改模块
-- 配置面板（ImGui + GLFW）：保持不变
-- 空闲检测（isWatchingVideo, isIdle）
-- 监视器/托盘图标（MonitorSpawn, MonitorKill）
-- WGC捕获（capture_wgc）
-- Shader编译和渲染逻辑
-- GLTexture模块
-
-### 下一步
-- 第二/三阶段：Renderer 常驻化（永久进程，通过 IPC 通信）
-- 考虑 D3D11 渲染层替代 OpenGL
+## 仍然存在的问题
+- Win11 黄边框（DWM 边框颜色设置可能需要调整时机）
+- 诊断代码（红屏测试、日志文件）尚在代码中，后续清理
