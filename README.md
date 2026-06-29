@@ -6,7 +6,8 @@
 
 ## 快速开始
 
-1. 双击 elease\blackhole.exe
+1. 双击 
+elease\blackhole.exe
 2. 配置参数 → 点击 **"启动"**
 3. 黑洞在**空闲时自动显示**，动鼠标/键盘即消失
 4. 右下角托盘图标 → 右键可退出
@@ -105,21 +106,63 @@ Windows 11 的 DWM 会对全屏透明窗口施加**强调色边框**（黄边框
 
 ## 文件结构
 
-`
-release/
-├── blackhole.exe          # 主程序
-├── blackhole.glsl         # 黑洞着色器
-├── glfw3.dll              # GLFW 运行时
-├── libgcc_s_seh-1.dll     # MinGW 运行时
-├── libstdc++-6.dll        # MinGW C++ 运行时
-└── shaders/
-    ├── vert.glsl
-    ├── frag_desktop_header.glsl
-    ├── frag_header.glsl
-    └── frag_simple.glsl
-`
+```
+ghostty-blackhole-main/
+├── blackhole.exe              # 主程序（构建输出）
+├── blackhole.glsl             # 黑洞着色器（GLSL）
+├── blackhole_presets.txt      # 预设配置文件
+├── CMakeLists.txt             # CMake 构建（默认 OpenGL 路径）
+├── debug_log.md               # D3D11 迁移调试记录
+├── LICENSE                    # MIT 许可证
+├── README.md                  # 本文件
+├── resource.rc                # Windows 资源文件（图标）
+├── WGC_vs_DXGI.md             # 捕获方案对比文档
+├── build_shader.ps1           # Shader 编译脚本
+├── watchdog.ps1               # 进程守护脚本
+│
+├── src/                       # 源代码
+│   ├── main.cpp               # 入口（OpenGL / D3D11 双路径，#ifdef 切换）
+│   ├── capture_wgc.cpp/h      # WGC 桌面捕获（默认）
+│   ├── capture_dxgi.cpp/h     # DXGI Duplication 备用捕获
+│   ├── gl_texture.cpp/h       # OpenGL 纹理管理
+│   ├── win32_gl.cpp/h         # Win32 + WGL 窗口（OpenGL 路径）
+│   ├── win32_window.cpp/h     # 纯 Win32 窗口（D3D11 路径，未启用）
+│   ├── d3d11_renderer.cpp/h   # D3D11 渲染器（未启用）
+│   ├── renderer_interface.h   # 渲染器抽象接口
+│   ├── texture_source.h       # 纹理源抽象接口
+│   ├── gui_config.cpp/h       # ImGui 配置面板
+│   └── imgui/                 # ImGui 库
+│       ├── imgui.cpp/h
+│       ├── imgui_draw.cpp
+│       ├── imgui_widgets.cpp
+│       ├── imgui_tables.cpp
+│       ├── imgui_impl_glfw.cpp/h
+│       └── imgui_impl_opengl3.cpp/h
+│
+├── shaders/                   # 着色器
+│   ├── vert.glsl              # OpenGL 顶点着色器
+│   ├── frag_header.glsl       # OpenGL 公共头
+│   ├── frag_desktop_header.glsl
+│   ├── frag_simple.glsl       # OpenGL 简单片段着色器
+│   ├── blackhole.hlsl         # HLSL 黑洞着色器（D3D11，未启用）
+│   └── fullscreen_vs.hlsl     # HLSL 全屏顶点着色器（D3D11，未启用）
+│
+└── release/                   # 发布目录
+    ├── blackhole.exe          # 运行时可执行文件
+    ├── blackhole.glsl         # 着色器
+    ├── glfw3.dll              # GLFW 运行时
+    ├── libgcc_s_seh-1.dll     # MinGW 运行时
+    └── libstdc++-6.dll        # MinGW C++ 运行时
+```
 
+### 切换渲染后端
 
+默认使用 OpenGL。要启用实验性 D3D11 路径：
+
+```cmake
+# CMakeLists.txt 第 34 行，取消注释：
+target_compile_definitions(blackhole PRIVATE BLACKHOLE_USE_D3D11)
+```
 ## 桌面捕获：WGC vs DXGI
 
 **WGC 帧可能不完整，但持续更新。DXGI 帧完整，但生命周期敏感。**
