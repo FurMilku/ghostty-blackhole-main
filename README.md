@@ -1,4 +1,4 @@
-﻿# Black Hole — Windows 桌面黑洞屏保
+# Black Hole — Windows 桌面黑洞屏保
 
 ![demo](demo.gif)
 
