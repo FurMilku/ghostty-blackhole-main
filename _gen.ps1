@@ -1,0 +1,33 @@
+﻿$o = "C:\Test_Program\VS_Code\ghostty-blackhole-main\Blakhole_UI\core\blackholecore.cpp"
+$w = [IO.StreamWriter]::new($o, $false, [Text.Encoding]::UTF8)
+# chunk 1
+# chunk 2
+# chunk 3
+# chunk 4
+# chunk 5
+# chunk 6
+# chunk 7
+# chunk 8
+# chunk 9
+# chunk 10
+# chunk 11
+# chunk 12
+# chunk 13
+# chunk 14
+# chunk 15
+# chunk 16
+# chunk 17
+# chunk 18
+# chunk 19
+# chunk 20
+# chunk 21
+# chunk 22
+# chunk 23
+# chunk 24
+# chunk 25
+# chunk 26
+# chunk 27
+# chunk 28
+# chunk 29
+# chunk 30
+$w.Close()

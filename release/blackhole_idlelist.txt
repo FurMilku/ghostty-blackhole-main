@@ -1,0 +1,5 @@
+# Blackhole Idle Lists v1
+[whitelist]
+[/whitelist]
+[blacklist]
+[/blacklist]
