@@ -1,9 +1,35 @@
-﻿*.mov
+*.mov
 *.mp4
 .DS_Store
 __pycache__/
 tuner/.build/
 tuner/dist/
 
-# Build outputs (CMake intermediate files)
+# Build outputs
 build/
+Blakhole_UI/build/
+
+# Release (large binaries)
+release/
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+CMakeLists.txt.user
+.qtcreator/
+
+# Development helper scripts
+_gen.ps1
+_w.ps1
+_w1.ps1
+_patch.py
+_new_middle.txt
+_initShaders_snippet.cpp
+_work.txt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
