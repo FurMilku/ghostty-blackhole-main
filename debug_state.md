@@ -423,3 +423,26 @@ program link 失败 → fallback/空输出/旧 shader 残留
 
 ### 编译
 ✅ 零错误零警告
+
+---
+
+## 文档整理 (2026-07-02)
+
+### 操作
+将 README.md 中的技术细节迁移到新建的 TECHNICAL.md，简化 README 为项目概述。
+
+### 新建文件
+- `TECHNICAL.md` — 技术文档（空闲检测原理、双进程设计、WGC vs DXGI、D3D11 实验、已知问题、Shader 改造、Bug 修复）
+
+### 修改文件
+- `README.md` — 精简为：项目概述、快速开始、模式说明、项目结构（活跃/预留模块清晰标注）、编译方法
+
+### 变更要点
+- README 中"空闲检测原理"→ TECHNICAL.md 第一章
+- README 中"双进程设计理由"→ TECHNICAL.md 第二章
+- README 中"窗口层级保护"→ TECHNICAL.md 第三章
+- README 中"WGC vs DXGI 对比"→ TECHNICAL.md 第四章
+- README 中"D3D11 实验"→ TECHNICAL.md 第五章
+- README 中"已知问题"→ TECHNICAL.md 第六章
+- README 中"Shader 改造/Bug修复"→ TECHNICAL.md 第七/八章
+- README 新增"项目结构"章节，明确标注 ✅活跃模块 和 🔒预留模块
