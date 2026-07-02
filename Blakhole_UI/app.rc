@@ -1,2 +1,6 @@
 #include <windows.h>
+<<<<<<< HEAD
 IDI_ICON1 ICON "app_icon.ico"
+=======
+IDI_ICON1 ICON "fonts/icon.ico"
+>>>>>>> de55ef2a922f67dd1827cf66d7b5d30884080722
