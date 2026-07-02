@@ -1,4 +1,4 @@
-﻿#include <QApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QIcon>
@@ -62,6 +62,13 @@ int main(int argc, char *argv[])
             auto *tray = window->findChild<SystemTray*>();
             if (tray) {
                 tray->setWindow(window);
+
+                // 启动后自动隐藏界面并启动黑洞
+                if (blackHoleCore.launchMinimized()) {
+                    window->hide();
+                    tray->setVisible(true);
+                    blackHoleCore.applyAndStart();
+                }
             }
         }
     }
