@@ -635,35 +635,13 @@ int main(int argc, char* argv[]) {
     ShowWindow(GetConsoleWindow(), SW_HIDE);
     SetProcessDPIAware();  // 声明 DPI 感知，防止 Windows 虚拟化缩放
 
-    // Set working directory to the folder that contains shaders/ and config files
+    // Set working directory to project root
     {
-        char exeDir[MAX_PATH];
-        GetModuleFileNameA(nullptr, exeDir, MAX_PATH);
-        char* lastSlash = strrchr(exeDir, '\\');
-        if (lastSlash) *lastSlash = 0;
-
-        auto hasShader = [](const char* dir) -> bool {
-            char test[MAX_PATH];
-            snprintf(test, sizeof(test), "%s\\shaders\\vert.glsl", dir);
-            std::ifstream f(test);
-            return f.good();
-        };
-
-        char candidate[MAX_PATH];
-        strncpy(candidate, exeDir, MAX_PATH - 1);
-        candidate[MAX_PATH - 1] = 0;
-        for (int i = 0; i < 6; i++) {
-            if (hasShader(candidate)) {
-                SetCurrentDirectoryA(candidate);
-                break;
-            }
-            char* parent = strrchr(candidate, '\\');
-            if (!parent) {
-                SetCurrentDirectoryA(exeDir);
-                break;
-            }
-            *parent = 0;
-        }
+        char p[MAX_PATH]; GetModuleFileNameA(nullptr, p, MAX_PATH);
+        char* s = strrchr(p, '\\'); if (s) *s = 0;
+        s = strrchr(p, '\\');
+        if (s && (strcmp(s+1,"build")==0 || strcmp(s+1,"Build")==0)) *s = 0;
+        SetCurrentDirectoryA(p);
     }
 
     bool isRenderer = (argc >= 2 && strcmp(argv[1], "--render") == 0);

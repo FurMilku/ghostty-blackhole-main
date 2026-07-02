@@ -614,29 +614,7 @@ void BlackHoleCore::startRenderer()
         });
     }
 
-    const QString bhDir = QFileInfo(exePath).absolutePath();
-    if (bhDir != appDir) {
-        static const char* kConfigFiles[] = {
-            "blackhole_presets.txt",
-            "blackhole_advanced.txt",
-            "blackhole_idlelist.txt",
-            "blackhole_schedule.txt",
-            "blackhole_system.txt",
-            "blackhole_lists.txt",
-        };
-        for (const char* name : kConfigFiles) {
-            const QString src = appDir + QLatin1Char('/') + QLatin1String(name);
-            const QString dst = bhDir + QLatin1Char('/') + QLatin1String(name);
-            if (QFileInfo::exists(src)) {
-                QFile::remove(dst);
-                QFile::copy(src, dst);
-            }
-        }
-    }
-
-    qDebug() << "BlackHoleCore: starting" << exePath << "--render"
-             << "cwd=" << bhDir;
-    m_rendererProcess->setWorkingDirectory(bhDir);
+    qDebug() << "BlackHoleCore: starting" << exePath << "--render";
     m_rendererProcess->start(exePath, QStringList() << "--render");
 }
 void BlackHoleCore::stopRenderer()

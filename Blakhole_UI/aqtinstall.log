@@ -1,9 +1,0 @@
-2026-07-03 06:05:00,801 - aqt.main - INFO - installer 45996 aqtinstall(aqt) v3.3.0 on Python 3.13.3 [CPython MSC v.1943 64 bit (AMD64)]
-2026-07-03 06:05:00,801 - aqt.helper - DEBUG - helper 45996 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw1310/Updates.xml.sha256
-2026-07-03 06:05:05,025 - aqt.helper - DEBUG - helper 45996 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw1310/Updates.xml.sha256
-2026-07-03 06:05:10,467 - aqt.helper - DEBUG - helper 34360 Attempt to download checksum at https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw1310/qt.tools.win64_mingw1310/13.1.0-202407240918mingw1310.7z.sha256
-2026-07-03 06:05:12,684 - aqt.helper - INFO - helper 34360 Downloading qt.tools.win64_mingw1310...
-2026-07-03 06:05:12,684 - aqt.installer - DEBUG - installer 34360 Download URL: https://ftp.jaist.ac.jp/pub/qtproject/online/qtsdkrepository/windows_x86/desktop/tools_mingw1310/qt.tools.win64_mingw1310/13.1.0-202407240918mingw1310.7z
-2026-07-03 06:06:49,098 - aqt.installer - INFO - installer 34360 Finished installation of mingw1310.7z in 98.63332520
-2026-07-03 06:06:49,279 - aqt.main - INFO - installer 45996 Finished installation
-2026-07-03 06:06:49,279 - aqt.main - INFO - installer 45996 Time elapsed: 108.47855400 second
