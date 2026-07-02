@@ -8,6 +8,9 @@ find_package(Qt6 REQUIRED COMPONENTS Quick Widgets OpenGL)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
+# Fix windres popen issue on Windows (MinGW)
+set(CMAKE_RC_FLAGS "${CMAKE_RC_FLAGS} --use-temp-file")
+
 qt_add_executable(appBlakholeUI
     main.cpp
     core/systemtray.h
@@ -16,6 +19,7 @@ qt_add_executable(appBlakholeUI
     core/blackholecore.cpp
     core/blackholepreviewfbo.h
     core/blackholepreviewfbo.cpp
+    app.rc
 )
 
 file(GLOB QML_COMPONENTS CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "components/*.qml")
