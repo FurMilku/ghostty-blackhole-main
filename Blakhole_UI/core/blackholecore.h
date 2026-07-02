@@ -1,4 +1,4 @@
-// blackholecore.h — 黑洞配置管理 + 进程控制
+﻿// blackholecore.h — 黑洞配置管理 + 进程控制
 #pragma once
 
 #include <QObject>
@@ -87,6 +87,8 @@ class BlackHoleCore : public QObject {
     Q_PROPERTY(bool videoAsIdle READ videoAsIdle WRITE setVideoAsIdle NOTIFY videoAsIdleChanged)
     Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart NOTIFY autoStartChanged)
     Q_PROPERTY(bool launchMinimized READ launchMinimized WRITE setLaunchMinimized NOTIFY launchMinimizedChanged)
+    // 多显示器
+    Q_PROPERTY(int screenTarget READ screenTarget WRITE setScreenTarget NOTIFY screenTargetChanged)
 
     // 进程状态
     Q_PROPERTY(bool rendererRunning READ rendererRunning NOTIFY rendererRunningChanged)
@@ -178,6 +180,8 @@ public:
     void setAutoStart(bool v);
     bool launchMinimized() const;
     void setLaunchMinimized(bool v);
+    int screenTarget() const;
+    void setScreenTarget(int v);
 
     // 进程状态
     bool rendererRunning() const;
@@ -301,6 +305,8 @@ signals:
     void videoAsIdleChanged();
     void autoStartChanged();
     void launchMinimizedChanged();
+
+    void screenTargetChanged();
     void rendererRunningChanged();
     void systemActiveChanged();
     void currentPresetIndexChanged();
@@ -372,6 +378,8 @@ private:
     bool    m_videoAsIdle  = false;
     bool    m_autoStart    = false;
     bool    m_launchMinimized  = false;
+
+    int     m_screenTarget = 0;  // 0=主屏, 1=副屏, 2=跨屏, 3=一屏一黑洞
 
     // 当前预设
     int     m_currentPresetIndex = 0;

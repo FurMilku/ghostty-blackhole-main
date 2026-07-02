@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -48,6 +48,7 @@ ApplicationWindow {
     property int defaultCloseAction: blackHoleCore ? blackHoleCore.defaultCloseAction : 0
     property bool autoStart: blackHoleCore ? blackHoleCore.autoStart : false
     property bool launchMinimized: blackHoleCore ? blackHoleCore.launchMinimized : false
+    property int screenTarget: blackHoleCore ? blackHoleCore.screenTarget : 0
 
     Item {
         id: contentWrapper
@@ -563,6 +564,45 @@ ApplicationWindow {
                         }
                     }
                 }
+                // 多显示器选择
+                Rectangle {
+                    width: parent.width
+                    height: 56
+                    radius: 12
+                    color: theme.secondaryColor
+
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.margins: 12
+                        spacing: 12
+
+                        Text {
+                            text: "\uf108"
+                            font.family: iconFont.name
+                            font.pixelSize: 18
+                            color: theme.focusColor
+                        }
+
+                        Text {
+                            text: "\u591a\u663e\u793a\u5668"
+                            font.pixelSize: 15
+                            color: theme.textColor
+                            Layout.fillWidth: true
+                        }
+
+                        Components.EDropDown {
+                            id: screenTargetDrop
+                            preferredWidth: 150
+                            model: ["\u4e3b\u5c4f\uff08\u9ed8\u8ba4\uff09", "\u526f\u5c4f", "\u8de8\u5c4f", "\u4e00\u5c4f\u4e00\u9ed1\u6d1e"]
+                            currentIndex: root.screenTarget
+                            onActivated: function(index) {
+                                root.screenTarget = index
+                                if (blackHoleCore) blackHoleCore.screenTarget = index
+                            }
+                        }
+                    }
+                }
+
 
                 Rectangle {
                     width: parent.width

@@ -1,4 +1,4 @@
-// blackholecore.cpp — 黑洞配置管理 + 进程控制 实现
+﻿// blackholecore.cpp — 黑洞配置管理 + 进程控制 实现
 #include "blackholecore.h"
 
 #include <QCoreApplication>
@@ -678,6 +678,9 @@ void BlackHoleCore::setAutoStart(bool v)      { if (m_autoStart != v) { m_autoSt
 
 bool BlackHoleCore::launchMinimized() const          { return m_launchMinimized; }
 void BlackHoleCore::setLaunchMinimized(bool v)     { if (m_launchMinimized == v) return; m_launchMinimized = v; emit launchMinimizedChanged(); }
+
+int BlackHoleCore::screenTarget() const { return m_screenTarget; }
+void BlackHoleCore::setScreenTarget(int v) { if (m_screenTarget == v) return; m_screenTarget = v; emit screenTargetChanged(); }
 
 int BlackHoleCore::currentPresetIndex() const { return m_currentPresetIndex; }
 void BlackHoleCore::setCurrentPresetIndex(int index)
@@ -1410,6 +1413,7 @@ void BlackHoleCore::saveSystemConfig()
     out << "followSystem=" << (m_followSystem ? 1 : 0) << "\n";
     out << "focusColor=" << m_focusColor.name(QColor::HexArgb) << "\n";
     out << "launchMinimized=" << (m_launchMinimized ? 1 : 0) << "\n";
+    out << "screenTarget=" << m_screenTarget << "\n";
     out << "skipExitDialog=" << (m_skipExitDialog ? 1 : 0) << "\n";
     out << "defaultCloseAction=" << m_defaultCloseAction << "\n";
     file.close();
@@ -1438,6 +1442,7 @@ void BlackHoleCore::loadSystemConfig()
         else if (key == "followSystem")      m_followSystem       = (val.toInt() != 0);
         else if (key == "focusColor")        m_focusColor         = QColor(val);
         else if (key == "launchMinimized") m_launchMinimized = (val.toInt() != 0);
+        else if (key == "screenTarget")    m_screenTarget = val.toInt();
         else if (key == "skipExitDialog")    m_skipExitDialog     = (val.toInt() != 0);
         else if (key == "defaultCloseAction") m_defaultCloseAction = val.toInt();
     }
